@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
 import { postsActions } from "~store/actions";
+import Loader from "~components/loader";
 
 const PostsPage = (props) => {
   useEffect(() => {
@@ -12,13 +13,15 @@ const PostsPage = (props) => {
   return (
     <section>
       <h2>PostsPage works</h2>
+      {props.loading ? <Loader /> : <p>Load finish</p>}
     </section>
   );
 };
 
 const mapStateToProps = (state) => {
   return {
-    posts: state.postsReducer.posts
+    posts: state.postsReducer.posts,
+    loading: state.postsReducer.loading
   };
 };
 
