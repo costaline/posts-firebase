@@ -9,13 +9,25 @@ const initialState = {
 const postsReducer = (state = initialState, { type, ...payload }) => {
   switch (type) {
     case actions.FETCH_POSTS_START:
-      return state;
+      return {
+        ...state,
+        loading: payload.loading,
+        error: null
+      };
 
     case actions.FETCH_POSTS_SUCCESS:
-      return state;
+      return {
+        ...state,
+        posts: payload.data,
+        loading: payload.loading
+      };
 
     case actions.FETCH_POSTS_ERROR:
-      return state;
+      return {
+        ...state,
+        loading: payload.loading,
+        error: payload.error
+      };
 
     default:
       return state;

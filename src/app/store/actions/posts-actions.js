@@ -4,19 +4,24 @@ import { firebase } from "~services/axios";
 
 const fetchPostsStart = () => {
   return {
-    type: actions.FETCH_POSTS_START
+    type: actions.FETCH_POSTS_START,
+    loading: true
   };
 };
 
-const fetchPostsSuccess = () => {
+const fetchPostsSuccess = (data) => {
   return {
-    type: actions.FETCH_POSTS_SUCCESS
+    type: actions.FETCH_POSTS_SUCCESS,
+    data,
+    loading: false
   };
 };
 
-const fetchPostsError = () => {
+const fetchPostsError = (error) => {
   return {
-    type: actions.FETCH_POSTS_ERROR
+    type: actions.FETCH_POSTS_ERROR,
+    loading: false,
+    error
   };
 };
 
@@ -25,9 +30,8 @@ export const fetchPosts = () => async (dispatch) => {
 
   try {
     const response = await firebase.get("/posts.json");
-    console.log(response);
-    dispatch(fetchPostsSuccess());
-  } catch (e) {
-    dispatch(fetchPostsError());
+    dispatch(fetchPostsSuccess(response.data));
+  } catch (err) {
+    dispatch(fetchPostsError(err));
   }
 };
