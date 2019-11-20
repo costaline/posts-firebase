@@ -1,11 +1,12 @@
 import * as actions from "./action-types";
 
-import { firebase } from "~services/axios";
+import { firebaseDBGetPosts } from "~services/axios";
 
 const fetchPostsStart = () => {
   return {
     type: actions.FETCH_POSTS_START,
-    loading: true
+    loading: true,
+    error: null
   };
 };
 
@@ -29,7 +30,8 @@ export const fetchPosts = () => async (dispatch) => {
   dispatch(fetchPostsStart());
 
   try {
-    const response = await firebase.get("/posts.json");
+    const response = await firebaseDBGetPosts();
+
     dispatch(fetchPostsSuccess(response.data));
   } catch (err) {
     dispatch(fetchPostsError(err));
