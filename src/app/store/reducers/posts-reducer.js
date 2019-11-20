@@ -1,7 +1,7 @@
 import * as actions from "~store/actions/action-types";
 
 const initialState = {
-  posts: null,
+  posts: [],
   loading: false,
   error: null
 };
