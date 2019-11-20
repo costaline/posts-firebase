@@ -2,18 +2,9 @@ import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
-import { firebase } from "~services/axios";
 import { postsActions } from "~store/actions";
 
 const PostsPage = (props) => {
-  useEffect(() => {
-    const fetchData = async () => {
-      const response = await firebase.get("/posts.json");
-      console.log(response);
-    };
-    fetchData();
-  }, []);
-
   useEffect(() => {
     props.fetchPosts();
   }, []);
