@@ -11,5 +11,13 @@ export const firebaseDBGetPosts = async () => {
     throw new Error(response.status);
   }
 
-  return response;
+  const posts = Object.keys(response.data).map((key) => {
+    return {
+      id: key,
+      title: response.data[key].title,
+      body: response.data[key].body
+    };
+  });
+
+  return posts;
 };

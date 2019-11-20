@@ -10,10 +10,10 @@ const fetchPostsStart = () => {
   };
 };
 
-const fetchPostsSuccess = (data) => {
+const fetchPostsSuccess = (posts) => {
   return {
     type: actions.FETCH_POSTS_SUCCESS,
-    data,
+    posts,
     loading: false
   };
 };
@@ -30,9 +30,9 @@ export const fetchPosts = () => async (dispatch) => {
   dispatch(fetchPostsStart());
 
   try {
-    const response = await firebaseDBGetPosts();
+    const posts = await firebaseDBGetPosts();
 
-    dispatch(fetchPostsSuccess(response.data));
+    dispatch(fetchPostsSuccess(posts));
   } catch (err) {
     dispatch(fetchPostsError(err));
   }

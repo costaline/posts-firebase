@@ -1,7 +1,7 @@
 import * as actions from "~store/actions/action-types";
 
 const initialState = {
-  posts: {},
+  posts: null,
   loading: false,
   error: null
 };
@@ -18,7 +18,7 @@ const postsReducer = (state = initialState, { type, ...payload }) => {
     case actions.FETCH_POSTS_SUCCESS:
       return {
         ...state,
-        posts: payload.data,
+        posts: payload.posts,
         loading: payload.loading
       };
 
