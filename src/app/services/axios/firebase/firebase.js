@@ -15,9 +15,22 @@ export const firebaseDBGetPosts = async () => {
     return {
       id: key,
       title: response.data[key].title,
-      body: response.data[key].body
+      body: response.data[key].body,
+      date: response.data[key].date
     };
   });
 
   return posts;
+};
+
+export const firebaseDBSendPost = async (post) => {
+  const data = { ...post, date: Date.now() };
+
+  const response = await firebaseDB.post("/posts.json", data);
+
+  if (response.statusText !== "OK") {
+    throw new Error(response.status);
+  }
+
+  console.log(response);
 };
