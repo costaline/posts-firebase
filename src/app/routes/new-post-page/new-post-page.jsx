@@ -1,10 +1,10 @@
 import React, { Component } from "react";
+import { firebaseDBSendPost } from "~services/axios";
 
 class NewPostPage extends Component {
   state = {
     title: "",
-    body: "",
-    date: ""
+    body: ""
   };
 
   onChangeHandler = (evt) => {
@@ -13,9 +13,10 @@ class NewPostPage extends Component {
 
   onSubmitHandler = (evt) => {
     evt.preventDefault();
-    this.setState({ date: Date.now() });
-    //send to db action
-    this.setState({ title: "", body: "", date: "" });
+
+    firebaseDBSendPost(this.state);
+
+    this.setState({ title: "", body: "" });
   };
 
   render() {
