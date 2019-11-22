@@ -1,2 +1,3 @@
 import * as postsActions from "./posts-actions";
-export { postsActions };
+import * as newPostActions from "./new-post-actions";
+export { postsActions, newPostActions };

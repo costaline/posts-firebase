@@ -1,7 +1,14 @@
 import React, { Component } from "react";
-import { firebaseDBSendPost } from "~services/axios";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+
+import { newPostActions } from "~store/actions";
 
 class NewPostPage extends Component {
+  static propTypes = {
+    sendPost: PropTypes.func.isRequired
+  };
+
   state = {
     title: "",
     body: ""
@@ -14,7 +21,7 @@ class NewPostPage extends Component {
   onSubmitHandler = (evt) => {
     evt.preventDefault();
 
-    firebaseDBSendPost(this.state);
+    this.props.sendPost(this.state);
 
     this.setState({ title: "", body: "" });
   };
@@ -48,4 +55,6 @@ class NewPostPage extends Component {
   }
 }
 
-export default NewPostPage;
+export default connect(null, { sendPost: newPostActions.sendPost })(
+  NewPostPage
+);
