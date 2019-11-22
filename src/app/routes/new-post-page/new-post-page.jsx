@@ -2,8 +2,9 @@ import React, { Component } from "react";
 
 class NewPostPage extends Component {
   state = {
-    email: "",
-    phone: ""
+    title: "",
+    body: "",
+    date: ""
   };
 
   onChangeHandler = (evt) => {
@@ -12,8 +13,9 @@ class NewPostPage extends Component {
 
   onSubmitHandler = (evt) => {
     evt.preventDefault();
-    console.log(this.state);
-    this.setState({ email: "", phone: "" });
+    this.setState({ date: Date.now() });
+    //send to db action
+    this.setState({ title: "", body: "", date: "" });
   };
 
   render() {
@@ -21,19 +23,24 @@ class NewPostPage extends Component {
       <div>
         <h2>New post page work</h2>
         <form onSubmit={this.onSubmitHandler}>
+          <label htmlFor="new-post-title">Title</label>
           <input
+            name="title"
             onChange={this.onChangeHandler}
-            value={this.state.email}
-            type="email"
-            name="email"
+            value={this.state.title}
+            type="text"
+            id="new-post-title"
           />
-          <input
+          <label htmlFor="new-post-body">Body</label>
+          <textarea
+            name="body"
             onChange={this.onChangeHandler}
-            value={this.state.phone}
-            type="tel"
-            name="phone"
+            value={this.state.body}
+            id="new-post-body"
+            cols="40"
+            rows="5"
           />
-          <button type="submit">REG</button>
+          <button type="submit">SEND</button>
         </form>
       </div>
     );
