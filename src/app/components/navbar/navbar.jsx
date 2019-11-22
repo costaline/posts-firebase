@@ -12,6 +12,9 @@ const NavBar = () => {
           <li>
             <NavLink to="/posts">POSTS</NavLink>
           </li>
+          <li>
+            <NavLink to="/new-post">NEW POST</NavLink>
+          </li>
         </ul>
       </nav>
     </header>
