@@ -15,6 +15,9 @@ const NavBar = () => {
           <li>
             <NavLink to="/new-post">NEW POST</NavLink>
           </li>
+          <li>
+            <NavLink to="/auth">AUTH</NavLink>
+          </li>
         </ul>
       </nav>
     </header>
