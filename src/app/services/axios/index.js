@@ -1,2 +1,13 @@
-import { firebaseDBGetPosts, firebaseDBSendPost } from "./firebase";
-export { firebaseDBGetPosts, firebaseDBSendPost };
+import {
+  firebaseDBGetPosts,
+  firebaseDBSendPost,
+  firebaseAuthSignUp,
+  firebaseAuthLogIn
+} from "./firebase";
+
+export {
+  firebaseDBGetPosts,
+  firebaseDBSendPost,
+  firebaseAuthSignUp,
+  firebaseAuthLogIn
+};

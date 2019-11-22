@@ -1,2 +1,9 @@
 import { firebaseDBGetPosts, firebaseDBSendPost } from "./firebase";
-export { firebaseDBGetPosts, firebaseDBSendPost };
+import { firebaseAuthSignUp, firebaseAuthLogIn } from "./firebase-auth";
+
+export {
+  firebaseDBGetPosts,
+  firebaseDBSendPost,
+  firebaseAuthSignUp,
+  firebaseAuthLogIn
+};
