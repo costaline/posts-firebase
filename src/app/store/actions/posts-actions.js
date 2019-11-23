@@ -1,6 +1,6 @@
 import * as actions from "./action-types";
 
-import { firebaseDBGetPosts } from "~services/axios";
+import { firebaseDBGetPosts } from "~services/firebase";
 
 const fetchPostsStart = () => {
   return {

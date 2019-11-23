@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-import { firebaseAuthSignUp } from "~services/axios";
+import { firebaseAuthSignUp } from "~services/firebase";
 
 class AuthPage extends Component {
   state = {

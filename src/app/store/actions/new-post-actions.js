@@ -1,6 +1,6 @@
 import * as actions from "./action-types";
 
-import { firebaseDBSendPost } from "~services/axios";
+import { firebaseDBSendPost } from "~services/firebase";
 
 const sendPostStart = () => {
   return {
