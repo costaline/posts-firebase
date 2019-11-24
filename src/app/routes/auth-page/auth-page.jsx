@@ -31,6 +31,18 @@ class AuthPage extends Component {
     this.setState({ email: "", password: "" });
   };
 
+  authSignIn = () => {
+    const authData = {
+      email: this.state.email,
+      password: this.state.password,
+      returnSequreToken: true
+    };
+
+    this.props.firebaseSignIn(authData);
+
+    this.setState({ email: "", password: "" });
+  };
+
   render() {
     return (
       <div>
@@ -53,7 +65,9 @@ class AuthPage extends Component {
             id="auth-password"
           />
 
-          <button type="submit">LOGIN</button>
+          <button onClick={this.authSignIn} type="button">
+            LOGIN
+          </button>
           <button onClick={this.authSignUp} type="button">
             REG
           </button>
@@ -63,6 +77,7 @@ class AuthPage extends Component {
   }
 }
 
-export default connect(null, { firebaseSignUp: authActions.authSignUp })(
-  AuthPage
-);
+export default connect(null, {
+  firebaseSignUp: authActions.authSignUp,
+  firebaseSignIn: authActions.authSignIn
+})(AuthPage);
