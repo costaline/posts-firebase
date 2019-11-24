@@ -1,5 +1,5 @@
 import * as actions from "./action-types";
-import { firebaseAuthSignUp, firebaseAuthLogIn } from "~services/firebase";
+import { firebaseAuthSignUp, firebaseAuthSignIn } from "~services/firebase";
 
 const authStart = () => {
   return {
@@ -35,7 +35,7 @@ export const authSignUp = (authData) => async (dispatch) => {
 
 export const authSignIn = (authData) => async (dispatch) => {
   try {
-    const res = await firebaseAuthLogIn(authData);
+    const res = await firebaseAuthSignIn(authData);
 
     dispatch(authSuccess(res));
   } catch (err) {

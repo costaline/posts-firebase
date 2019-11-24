@@ -10,11 +10,11 @@ const firebaseAuthSignUp = async (authData) => {
   return await firebaseAuth.post(`/accounts:signUp?key=${apiKey}`, authData);
 };
 
-const firebaseAuthLogIn = async (authData) => {
+const firebaseAuthSignIn = async (authData) => {
   return await firebaseAuth.post(
     `/accounts:signInWithPassword?key=${apiKey}`,
     authData
   );
 };
 
-export { firebaseAuthSignUp, firebaseAuthLogIn };
+export { firebaseAuthSignUp, firebaseAuthSignIn };
