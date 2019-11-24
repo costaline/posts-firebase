@@ -7,12 +7,7 @@ const firebaseAuth = axios.create({
 });
 
 const firebaseAuthSignUp = async (authData) => {
-  const response = await firebaseAuth.post(
-    `/accounts:signUp?key=${apiKey}`,
-    authData
-  );
-
-  console.log(response);
+  return await firebaseAuth.post(`/accounts:signUp?key=${apiKey}`, authData);
 };
 
 const firebaseAuthLogIn = async (authData) => {

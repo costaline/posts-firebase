@@ -1,6 +1,7 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 
-import { firebaseAuthSignUp } from "~services/firebase";
+import { authActions } from "~store/actions";
 
 class AuthPage extends Component {
   state = {
@@ -15,15 +16,17 @@ class AuthPage extends Component {
   onSubmitHandler = (evt) => {
     evt.preventDefault();
 
-    console.log(evt.target);
+    this.setState({ email: "", password: "" });
+  };
 
+  authSignUp = () => {
     const authData = {
       email: this.state.email,
       password: this.state.password,
       returnSequreToken: true
     };
 
-    firebaseAuthSignUp(authData);
+    this.props.firebaseSignUp(authData);
 
     this.setState({ email: "", password: "" });
   };
@@ -51,11 +54,15 @@ class AuthPage extends Component {
           />
 
           <button type="submit">LOGIN</button>
-          <button type="submit">REG</button>
+          <button onClick={this.authSignUp} type="button">
+            REG
+          </button>
         </form>
       </div>
     );
   }
 }
 
-export default AuthPage;
+export default connect(null, { firebaseSignUp: authActions.authSignUp })(
+  AuthPage
+);
