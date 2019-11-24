@@ -8,22 +8,13 @@ const initialState = {
 
 const authReducer = (state = initialState, { type, ...payload }) => {
   switch (type) {
-    case actions.SIGN_UP_START:
+    case actions.AUTH_START:
       return { ...state, requesting: true, error: null };
 
-    case actions.SIGN_UP_SUCCESS:
+    case actions.AUTH_SUCCESS:
       return { ...state, requesting: false, user: payload.user };
 
-    case actions.SIGN_UP_ERROR:
-      return { ...state, user: {}, requesting: false, error: payload.error };
-
-    case actions.SIGN_IN_START:
-      return { ...state, requesting: true, error: null };
-
-    case actions.SIGN_IN_SUCCESS:
-      return { ...state, requesting: false, user: payload.user };
-
-    case actions.SIGN_IN_ERROR:
+    case actions.AUTH_ERROR:
       return { ...state, user: {}, requesting: false, error: payload.error };
 
     default:

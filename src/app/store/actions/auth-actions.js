@@ -1,66 +1,44 @@
 import * as actions from "./action-types";
 import { firebaseAuthSignUp, firebaseAuthLogIn } from "~services/firebase";
 
-const authSignUpStart = () => {
+const authStart = () => {
   return {
-    type: actions.SIGN_UP_START
+    type: actions.AUTH_START
   };
 };
 
-const authSignUpSuccess = (response) => {
+const authSuccess = (response) => {
   return {
-    type: actions.SIGN_UP_SUCCESS,
+    type: actions.AUTH_SUCCESS,
     user: response.data
   };
 };
 
-const authSignUpError = (err) => {
+const authError = (err) => {
   return {
-    type: actions.SIGN_UP_ERROR,
+    type: actions.AUTH_ERROR,
     error: err.response.data
   };
 };
 
 export const authSignUp = (authData) => async (dispatch) => {
-  dispatch(authSignUpStart());
+  dispatch(authStart());
 
   try {
     const res = await firebaseAuthSignUp(authData);
 
-    dispatch(authSignUpSuccess(res));
+    dispatch(authSuccess(res));
   } catch (err) {
-    dispatch(authSignUpError(err));
+    dispatch(authError(err));
   }
 };
 
-const authSignInStart = () => {
-  return {
-    type: actions.SIGN_IN_START
-  };
-};
-
-const authSignInSuccess = (response) => {
-  return {
-    type: actions.SIGN_IN_SUCCESS,
-    user: response.data
-  };
-};
-
-const authSignInError = (err) => {
-  return {
-    type: actions.SIGN_IN_ERROR,
-    error: err.response.data
-  };
-};
-
 export const authSignIn = (authData) => async (dispatch) => {
-  dispatch(authSignInStart());
-
   try {
     const res = await firebaseAuthLogIn(authData);
 
-    dispatch(authSignInSuccess(res));
+    dispatch(authSuccess(res));
   } catch (err) {
-    dispatch(authSignInError(err));
+    dispatch(authError(err));
   }
 };
