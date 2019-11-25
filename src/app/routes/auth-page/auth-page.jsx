@@ -9,6 +9,20 @@ class AuthPage extends Component {
     password: ""
   };
 
+  componentDidMount() {
+    this.replacePage();
+  }
+
+  componentDidUpdate() {
+    this.replacePage();
+  }
+
+  replacePage = () => {
+    if (this.props.user) {
+      this.props.history.replace("/");
+    }
+  };
+
   onChangeHandler = (evt) => {
     this.setState({ [evt.target.name]: evt.target.value });
   };
@@ -77,7 +91,13 @@ class AuthPage extends Component {
   }
 }
 
-export default connect(null, {
+const mapStateToProps = (state) => {
+  return {
+    user: state.authReducer.user
+  };
+};
+
+export default connect(mapStateToProps, {
   firebaseSignUp: authActions.authSignUp,
   firebaseSignIn: authActions.authSignIn
 })(AuthPage);
