@@ -1,7 +1,7 @@
 import * as actions from "~store/actions/action-types";
 
 const initialState = {
-  user: {},
+  user: null,
   requesting: false,
   error: null
 };
@@ -16,6 +16,15 @@ const authReducer = (state = initialState, { type, ...payload }) => {
 
     case actions.AUTH_ERROR:
       return { ...state, user: {}, requesting: false, error: payload.error };
+
+    case actions.USER_LOGOUT:
+      return {
+        ...state,
+        user: null
+      };
+
+    case actions.USER_SET:
+      return { ...state, user: payload.user };
 
     default:
       return state;

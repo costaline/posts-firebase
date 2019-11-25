@@ -9,3 +9,7 @@ export const SEND_POST_ERROR = "SEND_POST_ERROR";
 export const AUTH_START = "AUTH_START";
 export const AUTH_SUCCESS = "AUTH_SUCCESS";
 export const AUTH_ERROR = "AUTH_ERROR";
+
+export const USER_SET = "USER_SET";
+
+export const USER_LOGOUT = "USER_LOGOUT";
