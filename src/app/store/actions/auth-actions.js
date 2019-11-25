@@ -4,13 +4,12 @@ import * as actions from "./action-types";
 import { firebaseAuthSignUp, firebaseAuthSignIn } from "~services/firebase";
 
 const authStart = () => {
-  console.log("sssssstart");
   return {
     type: actions.AUTH_START
   };
 };
 
-const authSuccess = response => {
+const authSuccess = (response) => {
   Cookies.set("jwt", response.data.idToken);
 
   return {
@@ -19,14 +18,14 @@ const authSuccess = response => {
   };
 };
 
-const authError = err => {
+const authError = (err) => {
   return {
     type: actions.AUTH_ERROR,
     error: err.response.data
   };
 };
 
-export const authSignUp = authData => async dispatch => {
+export const authSignUp = (authData) => async (dispatch) => {
   dispatch(authStart());
 
   try {
@@ -38,7 +37,7 @@ export const authSignUp = authData => async dispatch => {
   }
 };
 
-export const authSignIn = authData => async dispatch => {
+export const authSignIn = (authData) => async (dispatch) => {
   try {
     const res = await firebaseAuthSignIn(authData);
 
@@ -48,7 +47,7 @@ export const authSignIn = authData => async dispatch => {
   }
 };
 
-export const setUser = user => {
+export const setUser = (user) => {
   return {
     type: actions.USER_SET,
     user: { id: user.user_id, email: user.email }
