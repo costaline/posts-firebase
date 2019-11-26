@@ -13,13 +13,15 @@ const PostsPage = ({ fetchPosts, posts, loading, error }) => {
   }, []);
 
   const renderItem = () => {
-    return posts.map((post) => {
-      return (
-        <li key={`post-${post.id}`}>
-          <PostItem post={post} />
-        </li>
-      );
-    });
+    return posts
+      .sort((a, b) => b.date - a.date)
+      .map((post) => {
+        return (
+          <li key={`post-${post.id}`}>
+            <PostItem post={post} />
+          </li>
+        );
+      });
   };
 
   return (
