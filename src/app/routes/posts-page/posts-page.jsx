@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
 
 import { postsActions } from "~store/actions";
 import Loader from "~components/loader";
@@ -19,6 +20,7 @@ const PostsPage = ({ fetchPosts, posts, loading, error }) => {
         return (
           <li key={`post-${post.id}`}>
             <PostItem post={post} />
+            <Link to={`/posts/${post.id}`}>READ MORE</Link>
           </li>
         );
       });
