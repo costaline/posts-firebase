@@ -36,3 +36,13 @@ export const firebaseDBSendPost = async (post) => {
 
   return response;
 };
+
+export const firebaseDBGetPost = async (id) => {
+  const response = await firebaseDB.get(`/posts/${id}.json`);
+
+  if (response.statusText !== "OK") {
+    throw new Error(response.status);
+  }
+
+  return response.data;
+};
