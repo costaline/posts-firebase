@@ -16,7 +16,9 @@ export const firebaseDBGetPosts = async () => {
       id: key,
       title: response.data[key].title,
       body: response.data[key].body,
-      date: response.data[key].date
+      date: response.data[key].date,
+      user_id: response.data[key].user_id,
+      email: response.data[key].email
     };
   });
 
@@ -32,5 +34,5 @@ export const firebaseDBSendPost = async (post) => {
     throw new Error(response.status);
   }
 
-  console.log(response);
+  return response;
 };
