@@ -38,6 +38,8 @@ export const authSignUp = (authData) => async (dispatch) => {
 };
 
 export const authSignIn = (authData) => async (dispatch) => {
+  dispatch(authStart());
+
   try {
     const res = await firebaseAuthSignIn(authData);
 
