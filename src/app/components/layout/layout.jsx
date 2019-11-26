@@ -1,19 +1,38 @@
 import React from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
+import { connect } from "react-redux";
 
-import { routes } from "~routes";
+import routes from "~routes";
 
-const Layout = () => {
+const Layout = ({ user }) => {
+  const renderRoutes = routes(!!user);
+
   return (
     <main>
       <Switch>
-        {routes.map((route, i) => (
-          <Route key={`route-${i}`} {...route} />
-        ))}
+        {renderRoutes
+          .filter((route) => route.isRender)
+          .map(({ path, component, exact }) => {
+            return (
+              <Route
+                key={`route:${path}`}
+                path={path}
+                component={component}
+                exact={exact}
+              />
+            );
+          })}
+
         <Redirect to="/" />
       </Switch>
     </main>
   );
 };
 
-export default Layout;
+const mapStateToProps = (state) => {
+  return {
+    user: state.authReducer.user
+  };
+};
+
+export default connect(mapStateToProps)(Layout);
