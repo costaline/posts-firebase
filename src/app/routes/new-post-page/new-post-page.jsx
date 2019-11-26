@@ -6,12 +6,18 @@ import { newPostActions } from "~store/actions";
 
 class NewPostPage extends Component {
   static propTypes = {
-    sendPost: PropTypes.func.isRequired
+    sendPost: PropTypes.func.isRequired,
+    user: PropTypes.shape({
+      id: PropTypes.string,
+      email: PropTypes.string
+    })
   };
 
   state = {
     title: "",
-    body: ""
+    body: "",
+    user_id: this.props.user.id,
+    email: this.props.user.email
   };
 
   onChangeHandler = (evt) => {
@@ -55,6 +61,12 @@ class NewPostPage extends Component {
   }
 }
 
-export default connect(null, { sendPost: newPostActions.sendPost })(
+const mapStateToProps = (state) => {
+  return {
+    user: state.authReducer.user
+  };
+};
+
+export default connect(mapStateToProps, { sendPost: newPostActions.sendPost })(
   NewPostPage
 );
