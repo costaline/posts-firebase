@@ -13,3 +13,7 @@ export const AUTH_ERROR = "AUTH_ERROR";
 export const USER_SET = "USER_SET";
 
 export const USER_LOGOUT = "USER_LOGOUT";
+
+export const FETCH_POST_START = "FETCH_POST_START";
+export const FETCH_POST_SUCCESS = "FETCH_POST_SUCCESS";
+export const FETCH_POST_ERROR = "FETCH_POST_ERROR";
