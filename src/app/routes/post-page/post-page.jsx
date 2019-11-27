@@ -26,8 +26,20 @@ class PostPage extends Component {
     }),
     user: PropTypes.shape({
       id: PropTypes.string
-    })
+    }),
+    history: PropTypes.object,
+    deletePost: PropTypes.func,
+    editPost: PropTypes.func,
+    edit: PropTypes.bool,
+    toggleEdit: PropTypes.func
   };
+
+  constructor(props) {
+    super(props);
+
+    this.titleInput = React.createRef();
+    this.bodyInput = React.createRef();
+  }
 
   componentDidMount() {
     this.props.fetchPost(this.props.match.params.id);
@@ -42,6 +54,14 @@ class PostPage extends Component {
     } = this.props;
 
     this.props.deletePost(id, history);
+  };
+
+  onSubmitHandler = (evt) => {
+    evt.preventDefault();
+    this.props.editPost(this.props.match.params.id, {
+      title: this.titleInput.current.value,
+      body: this.bodyInput.current.value
+    });
   };
 
   render() {
@@ -63,7 +83,7 @@ class PostPage extends Component {
       <>
         {requesting && !error ? (
           <Loader />
-        ) : (
+        ) : !this.props.edit ? (
           <div>
             <div>
               <h2>{title}</h2>
@@ -74,10 +94,28 @@ class PostPage extends Component {
             {post_user_id === current_user_id && (
               <div>
                 <button onClick={this.deletePost}>DELETE</button>
-                <button>EDIT</button>
+                <button onClick={this.props.toggleEdit}>EDIT</button>
               </div>
             )}
           </div>
+        ) : (
+          <form onSubmit={this.onSubmitHandler}>
+            <input
+              ref={this.titleInput}
+              defaultValue={title}
+              type="text"
+              id="edit-title"
+            />
+            <br />
+            <textarea
+              ref={this.bodyInput}
+              defaultValue={body}
+              id="edit-body"
+              cols="30"
+              rows="10"
+            />
+            <button type="submit">EDIT</button>
+          </form>
         )}
         {error ? <p>Something wrong...</p> : null}
       </>
@@ -90,13 +128,19 @@ const mapStateToProps = (state) => {
     post: state.postReducer.post,
     requesting: state.postReducer.requesting,
     error: state.postReducer.error,
-    user: state.authReducer.user
+    user: state.authReducer.user,
+    edit: state.postReducer.edit
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators(
-    { fetchPost: postActions.fetchPost, deletePost: postActions.deletePost },
+    {
+      fetchPost: postActions.fetchPost,
+      deletePost: postActions.deletePost,
+      toggleEdit: postActions.toggleEdit,
+      editPost: postActions.editPost
+    },
     dispatch
   );
 };
