@@ -1,5 +1,9 @@
 import * as actions from "~store/actions/action-types";
-import { firebaseDBGetPost, firebaseDBDeletePost } from "~services/firebase";
+import {
+  firebaseDBGetPost,
+  firebaseDBDeletePost,
+  firebaseDBEditPost
+} from "~services/firebase";
 
 const fetchPostStart = () => {
   return {
@@ -56,5 +60,37 @@ export const deletePost = (id, history) => async (dispatch) => {
     dispatch(deletePostSuccess());
   } catch (err) {
     dispatch(deletePostError(err));
+  }
+};
+
+export const toggleEdit = () => ({
+  type: actions.USER_TOGGLE_EDIT
+});
+
+const editPostStart = () => ({
+  type: actions.USER_EDIT_POST_START
+});
+
+const editPostSuccess = () => ({
+  type: actions.USER_EDIT_POST_SUCCESS
+});
+
+const editPostError = (error) => ({
+  type: actions.USER_EDIT_POST_ERROR,
+  error
+});
+
+export const editPost = (id, data) => async (dispatch) => {
+  dispatch(toggleEdit());
+
+  dispatch(editPostStart());
+
+  try {
+    await firebaseDBEditPost(id, data);
+
+    dispatch(editPostSuccess());
+    dispatch(fetchPost(id));
+  } catch (err) {
+    dispatch(editPostError(err));
   }
 };
