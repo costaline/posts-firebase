@@ -56,3 +56,13 @@ export const firebaseDBDeletePost = async (id) => {
 
   return response;
 };
+
+export const firebaseDBEditPost = async (id, data) => {
+  const response = await firebaseDB.patch(`/posts/${id}.json`, data);
+
+  if (response.statusText !== "OK") {
+    throw new Error(response.status);
+  }
+
+  return response;
+};
