@@ -29,6 +29,15 @@ const postReducer = (state = initialState, { type, ...payload }) => {
         error: payload.error
       };
 
+    case actions.USER_DELETE_POST_START:
+      return { ...state, requesting: true, error: null };
+
+    case actions.USER_DELETE_POST_SUCCESS:
+      return { ...state, post: {}, requesting: false, error: null };
+
+    case actions.USER_DELETE_POST_ERROR:
+      return { ...state, requesting: false, error: payload.error };
+
     default:
       return state;
   }
