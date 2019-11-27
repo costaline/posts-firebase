@@ -56,9 +56,9 @@ export const setUser = (user) => {
   };
 };
 
-export const logoutUser = () => {
+export const logoutUser = (history) => {
   Cookies.remove("jwt");
-
+  history.push("/");
   return {
     type: actions.USER_LOGOUT
   };

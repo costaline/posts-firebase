@@ -3,10 +3,11 @@ import { NavLink } from "react-router-dom";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import PropTypes from "prop-types";
+import { withRouter } from "react-router-dom";
 
 import { authActions } from "~store/actions";
 
-const NavBar = ({ user, logoutUser }) => {
+const NavBar = ({ user, logoutUser, history }) => {
   return (
     <header>
       <nav>
@@ -29,7 +30,7 @@ const NavBar = ({ user, logoutUser }) => {
           {user ? (
             <>
               <li>{user.email}</li>
-              <li onClick={logoutUser}>LOGOUT</li>
+              <li onClick={() => logoutUser(history)}>LOGOUT</li>
             </>
           ) : (
             <li>
@@ -44,7 +45,8 @@ const NavBar = ({ user, logoutUser }) => {
 
 NavBar.propTypes = {
   user: PropTypes.shape({ email: PropTypes.string }),
-  logoutUser: PropTypes.func.isRequired
+  logoutUser: PropTypes.func.isRequired,
+  history: PropTypes.object
 };
 
 const mapStateToProps = (state) => {
@@ -57,4 +59,4 @@ const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({ logoutUser: authActions.logoutUser }, dispatch);
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(NavBar);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(NavBar));
