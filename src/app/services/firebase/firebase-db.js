@@ -46,3 +46,13 @@ export const firebaseDBGetPost = async (id) => {
 
   return response.data;
 };
+
+export const firebaseDBDeletePost = async (id) => {
+  const response = await firebaseDB.delete(`/posts/${id}.json`);
+
+  if (response.statusText !== "OK") {
+    throw new Error(response.status);
+  }
+
+  return response;
+};

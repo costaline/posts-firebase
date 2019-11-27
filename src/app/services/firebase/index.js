@@ -1,7 +1,8 @@
 import {
   firebaseDBGetPosts,
   firebaseDBSendPost,
-  firebaseDBGetPost
+  firebaseDBGetPost,
+  firebaseDBDeletePost
 } from "./firebase-db";
 import { firebaseAuthSignUp, firebaseAuthSignIn } from "./firebase-auth";
 
@@ -10,5 +11,6 @@ export {
   firebaseDBSendPost,
   firebaseAuthSignUp,
   firebaseAuthSignIn,
-  firebaseDBGetPost
+  firebaseDBGetPost,
+  firebaseDBDeletePost
 };
