@@ -15,7 +15,7 @@ const authReducer = (state = initialState, { type, ...payload }) => {
       return { ...state, requesting: false, user: payload.user };
 
     case actions.AUTH_ERROR:
-      return { ...state, user: {}, requesting: false, error: payload.error };
+      return { ...state, user: null, requesting: false, error: payload.error };
 
     case actions.USER_LOGOUT:
       return {

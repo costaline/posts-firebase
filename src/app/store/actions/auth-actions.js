@@ -21,7 +21,7 @@ const authSuccess = (response) => {
 const authError = (err) => {
   return {
     type: actions.AUTH_ERROR,
-    error: err.response.data
+    error: err.response.data.error.message
   };
 };
 
