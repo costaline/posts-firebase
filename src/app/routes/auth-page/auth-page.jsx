@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import PropTypes from "prop-types";
 
 import { authActions } from "~store/actions";
+import Loader from "~components/loader";
 
 const initialState = () => ({
   email: {
@@ -25,6 +27,18 @@ const initialState = () => ({
 });
 
 class AuthPage extends Component {
+  static propTypes = {
+    user: PropTypes.shape({
+      id: PropTypes.string,
+      email: PropTypes.string
+    }),
+    requesting: PropTypes.bool.isRequired,
+    error: PropTypes.string,
+    history: PropTypes.object,
+    firebaseSignIn: PropTypes.func,
+    firebaseSignUp: PropTypes.func
+  };
+
   state = initialState();
 
   componentDidMount() {
@@ -161,60 +175,74 @@ class AuthPage extends Component {
     }
   };
 
-  render() {
+  //TODO: modal
+  showAuthError = () => {
+    return <h3>{this.props.error}</h3>;
+  };
+
+  renderForm = () => {
     const { email, password } = this.state;
 
     return (
+      <form onSubmit={this.onSubmitHandler}>
+        <div>
+          <label htmlFor="auth-email">Email</label>
+          <input
+            value={email.value}
+            onChange={this.onChangeHandler}
+            type="email"
+            name="email"
+            id="auth-email"
+          />
+          {email.showError && !email.isValid && (
+            <div>
+              <small>
+                {(email.errors.empty && "empty value") ||
+                  (email.errors.email && "invalid email")}
+              </small>
+            </div>
+          )}
+        </div>
+
+        <div>
+          <label htmlFor="auth-password">Password</label>
+          <input
+            value={password.value}
+            onChange={this.onChangeHandler}
+            type="password"
+            name="password"
+            id="auth-password"
+          />
+          {password.showError && !password.isValid && (
+            <div>
+              <small>
+                {(password.errors.empty && "empty value") ||
+                  (password.errors.minLength &&
+                    "at least 6 character required")}
+              </small>
+            </div>
+          )}
+        </div>
+
+        <div>
+          <button onClick={this.onLoginClickHandler} type="button">
+            LOGIN
+          </button>
+          <button onClick={this.onRegClickHandler} type="button">
+            REG
+          </button>
+        </div>
+      </form>
+    );
+  };
+
+  render() {
+    const { requesting, error } = this.props;
+
+    return (
       <div>
-        <form onSubmit={this.onSubmitHandler}>
-          <div>
-            <label htmlFor="auth-email">Email</label>
-            <input
-              value={email.value}
-              onChange={this.onChangeHandler}
-              type="email"
-              name="email"
-              id="auth-email"
-            />
-            {email.showError && !email.isValid && (
-              <div>
-                <small>
-                  {(email.errors.empty && "empty value") ||
-                    (email.errors.email && "invalid email")}
-                </small>
-              </div>
-            )}
-          </div>
-
-          <div>
-            <label htmlFor="auth-password">Password</label>
-            <input
-              value={password.value}
-              onChange={this.onChangeHandler}
-              type="password"
-              name="password"
-              id="auth-password"
-            />
-            {password.showError && !password.isValid && (
-              <div>
-                <small>
-                  {(password.errors.empty && "empty value") ||
-                    (password.errors.minLength &&
-                      "at least 6 character required")}
-                </small>
-              </div>
-            )}
-          </div>
-
-          <div>
-            <button onClick={this.onLoginClickHandler} type="button">
-              LOGIN
-            </button>
-            <button onClick={this.onRegClickHandler} type="button">
-              REG
-            </button>
-          </div>
-        </form>
+        {requesting && !error ? <Loader /> : this.renderForm()}
+        {error && this.showAuthError()}
       </div>
     );
   }
@@ -222,7 +250,9 @@ class AuthPage extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    user: state.authReducer.user
+    user: state.authReducer.user,
+    requesting: state.authReducer.requesting,
+    error: state.authReducer.error
   };
 };
 
