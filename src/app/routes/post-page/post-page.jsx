@@ -73,7 +73,11 @@ class PostPage extends Component {
       user_id: post_user_id
     } = this.props.post;
 
-    const { id: current_user_id } = this.props.user;
+    let current_user_id;
+
+    this.props.user
+      ? ({ id: current_user_id } = this.props.user)
+      : (current_user_id = "");
 
     const { requesting, error } = this.props;
 
