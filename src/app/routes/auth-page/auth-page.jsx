@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
+import ErrorBoundary from "~hocs/error-boundary";
 import { authActions } from "~store/actions";
 import Loader from "~components/loader";
 
@@ -240,10 +241,12 @@ class AuthPage extends Component {
     const { requesting, error } = this.props;
 
     return (
-      <div>
-        {requesting && !error ? <Loader /> : this.renderForm()}
-        {error && this.showAuthError()}
-      </div>
+      <ErrorBoundary>
+        <div>
+          {requesting && !error ? <Loader /> : this.renderForm()}
+          {error && this.showAuthError()}
+        </div>
+      </ErrorBoundary>
     );
   }
 }

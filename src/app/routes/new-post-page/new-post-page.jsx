@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
 import { newPostActions } from "~store/actions";
+import ErrorBoundary from "~hocs/error-boundary";
 
 class NewPostPage extends Component {
   static propTypes = {
@@ -34,29 +35,31 @@ class NewPostPage extends Component {
 
   render() {
     return (
-      <div>
-        <h2>New post page work</h2>
-        <form onSubmit={this.onSubmitHandler}>
-          <label htmlFor="new-post-title">Title</label>
-          <input
-            name="title"
-            onChange={this.onChangeHandler}
-            value={this.state.title}
-            type="text"
-            id="new-post-title"
-          />
-          <label htmlFor="new-post-body">Body</label>
-          <textarea
-            name="body"
-            onChange={this.onChangeHandler}
-            value={this.state.body}
-            id="new-post-body"
-            cols="40"
-            rows="5"
-          />
-          <button type="submit">SEND</button>
-        </form>
-      </div>
+      <ErrorBoundary>
+        <div>
+          <h2>New post page work</h2>
+          <form onSubmit={this.onSubmitHandler}>
+            <label htmlFor="new-post-title">Title</label>
+            <input
+              name="title"
+              onChange={this.onChangeHandler}
+              value={this.state.title}
+              type="text"
+              id="new-post-title"
+            />
+            <label htmlFor="new-post-body">Body</label>
+            <textarea
+              name="body"
+              onChange={this.onChangeHandler}
+              value={this.state.body}
+              id="new-post-body"
+              cols="40"
+              rows="5"
+            />
+            <button type="submit">SEND</button>
+          </form>
+        </div>
+      </ErrorBoundary>
     );
   }
 }

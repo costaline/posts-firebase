@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import { postsActions } from "~store/actions";
 import Loader from "~components/loader";
 import PostItem from "~components/post-item";
+import ErrorBoundary from "~hocs/error-boundary";
 
 const PostsPage = ({ fetchPosts, posts, loading, error }) => {
   useEffect(() => {
@@ -27,11 +28,13 @@ const PostsPage = ({ fetchPosts, posts, loading, error }) => {
   };
 
   return (
-    <section>
-      <h2>PostsPage works</h2>
-      {loading && !error ? <Loader /> : <ul>{renderItem()}</ul>}
-      {error ? <p>Something wrong...</p> : null}
-    </section>
+    <ErrorBoundary>
+      <section>
+        <h2>PostsPage works</h2>
+        {loading && !error ? <Loader /> : <ul>{renderItem()}</ul>}
+        {error ? <p>Something wrong...</p> : null}
+      </section>
+    </ErrorBoundary>
   );
 };
 

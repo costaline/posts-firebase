@@ -6,6 +6,7 @@ import PropTypes from "prop-types";
 
 import { postActions } from "~store/actions";
 import Loader from "~components/loader";
+import ErrorBoundary from "~hocs/error-boundary";
 
 class PostPage extends Component {
   static propTypes = {
@@ -84,45 +85,47 @@ class PostPage extends Component {
     const postDate = date ? format(new Date(date), "yyyy-MM-dd") : "unknown";
 
     return (
-      <>
-        {requesting && !error ? (
-          <Loader />
-        ) : !this.props.edit ? (
-          <div>
+      <ErrorBoundary>
+        <>
+          {requesting && !error ? (
+            <Loader />
+          ) : !this.props.edit ? (
             <div>
-              <h2>{title}</h2>
-              <p>{body}</p>
-              <small>{postDate}</small>
-              <cite>{email}</cite>
-            </div>
-            {post_user_id === current_user_id && (
               <div>
-                <button onClick={this.deletePost}>DELETE</button>
-                <button onClick={this.props.toggleEdit}>EDIT</button>
+                <h2>{title}</h2>
+                <p>{body}</p>
+                <small>{postDate}</small>
+                <cite>{email}</cite>
               </div>
-            )}
-          </div>
-        ) : (
-          <form onSubmit={this.onSubmitHandler}>
-            <input
-              ref={this.titleInput}
-              defaultValue={title}
-              type="text"
-              id="edit-title"
-            />
-            <br />
-            <textarea
-              ref={this.bodyInput}
-              defaultValue={body}
-              id="edit-body"
-              cols="30"
-              rows="10"
-            />
-            <button type="submit">EDIT</button>
-          </form>
-        )}
-        {error ? <p>Something wrong...</p> : null}
-      </>
+              {post_user_id === current_user_id && (
+                <div>
+                  <button onClick={this.deletePost}>DELETE</button>
+                  <button onClick={this.props.toggleEdit}>EDIT</button>
+                </div>
+              )}
+            </div>
+          ) : (
+            <form onSubmit={this.onSubmitHandler}>
+              <input
+                ref={this.titleInput}
+                defaultValue={title}
+                type="text"
+                id="edit-title"
+              />
+              <br />
+              <textarea
+                ref={this.bodyInput}
+                defaultValue={body}
+                id="edit-body"
+                cols="30"
+                rows="10"
+              />
+              <button type="submit">EDIT</button>
+            </form>
+          )}
+          {error ? <p>Something wrong...</p> : null}
+        </>
+      </ErrorBoundary>
     );
   }
 }
