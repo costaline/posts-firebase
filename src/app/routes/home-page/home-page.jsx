@@ -1,9 +1,11 @@
 import React from "react";
 
+import Quote from "~components/quote";
+
 const HomePage = () => {
   return (
     <section>
-      <h2>HomePage works</h2>
+      <Quote refreshTimeoutSec={60} />
     </section>
   );
 };
