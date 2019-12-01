@@ -15,9 +15,12 @@ const PostsPage = ({ fetchPosts, posts, loading, error }) => {
 
   return (
     <ErrorBoundary>
-      <section>
-        {loading && !error ? <Loader /> : <PostsList posts={posts} />}
-        {error && <p>Something wrong...</p>}
+      <section className="row">
+        <div className="col pt-3">
+          {loading && !error ? <Loader /> : <PostsList posts={posts} />}
+
+          {error && <p>Something wrong...</p>}
+        </div>
       </section>
     </ErrorBoundary>
   );
