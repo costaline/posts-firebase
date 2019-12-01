@@ -1,18 +1,16 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 
 import PostItem from "~components/post-item";
 
 const PostsList = ({ posts }) => (
-  <ul>
+  <ul className="card-columns">
     {posts
       .sort((a, b) => b.date - a.date)
       .map((post) => {
         return (
-          <li key={`post-${post.id}`}>
+          <li className="card" key={`post-${post.id}`}>
             <PostItem post={post} />
-            <Link to={`/posts/${post.id}`}>READ MORE</Link>
           </li>
         );
       })}
