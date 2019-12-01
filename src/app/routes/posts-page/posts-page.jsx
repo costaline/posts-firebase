@@ -2,37 +2,22 @@ import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
 
 import { postsActions } from "~store/actions";
 import Loader from "~components/loader";
-import PostItem from "~components/post-item";
 import ErrorBoundary from "~hocs/error-boundary";
+import PostsList from "~components/posts-list";
 
 const PostsPage = ({ fetchPosts, posts, loading, error }) => {
   useEffect(() => {
     fetchPosts();
   }, []);
 
-  const renderItem = () => {
-    return posts
-      .sort((a, b) => b.date - a.date)
-      .map((post) => {
-        return (
-          <li key={`post-${post.id}`}>
-            <PostItem post={post} />
-            <Link to={`/posts/${post.id}`}>READ MORE</Link>
-          </li>
-        );
-      });
-  };
-
   return (
     <ErrorBoundary>
       <section>
-        <h2>PostsPage works</h2>
-        {loading && !error ? <Loader /> : <ul>{renderItem()}</ul>}
-        {error ? <p>Something wrong...</p> : null}
+        {loading && !error ? <Loader /> : <PostsList posts={posts} />}
+        {error && <p>Something wrong...</p>}
       </section>
     </ErrorBoundary>
   );
