@@ -8,7 +8,7 @@ const Layout = ({ user }) => {
   const renderRoutes = routes(!!user);
 
   return (
-    <main>
+    <main className="container">
       <Switch>
         {renderRoutes
           .filter((route) => route.isRender)
