@@ -14,7 +14,7 @@ const authSuccess = (response) => {
 
   return {
     type: actions.AUTH_SUCCESS,
-    user: { id: response.data.user_id, email: response.data.email }
+    user: { id: response.data.localId, email: response.data.email }
   };
 };
 
