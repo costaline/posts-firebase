@@ -7,6 +7,7 @@ import PropTypes from "prop-types";
 import { postActions } from "~store/actions";
 import Loader from "~components/loader";
 import ErrorBoundary from "~hocs/error-boundary";
+import PostView from "~components/post-view";
 
 class PostPage extends Component {
   static propTypes = {
@@ -80,57 +81,60 @@ class PostPage extends Component {
       user_id: post_user_id
     } = this.props.post;
 
-    let current_user_id;
-
-    this.props.user
-      ? ({ id: current_user_id } = this.props.user)
-      : (current_user_id = "");
-
-    const { requesting, error } = this.props;
-
     const postDate = date ? format(new Date(date), "yyyy-MM-dd") : "unknown";
+
+    let current_user_id = "";
+
+    if (this.props.user) {
+      current_user_id = this.props.user.id;
+    }
+
+    const { requesting, error, edit } = this.props;
+
+    const mode = {
+      isRequest: requesting,
+      isError: error,
+      isView: !edit && !requesting,
+      isAuthor: post_user_id === current_user_id && !edit && !requesting,
+      isEditor: edit
+    };
 
     return (
       <ErrorBoundary>
-        <>
-          {requesting && !error ? (
-            <Loader />
-          ) : !this.props.edit ? (
-            <div>
-              <div>
-                <h2>{title}</h2>
-                <p>{body}</p>
-                <small>{postDate}</small>
-                <cite>{email}</cite>
-              </div>
-              {post_user_id === current_user_id && (
-                <div>
-                  <button onClick={this.deletePost}>DELETE</button>
-                  <button onClick={this.props.toggleEdit}>EDIT</button>
-                </div>
-              )}
-            </div>
-          ) : (
-            <form onSubmit={this.onSubmitHandler}>
-              <input
-                ref={this.titleInput}
-                defaultValue={title}
-                type="text"
-                id="edit-title"
-              />
-              <br />
-              <textarea
-                ref={this.bodyInput}
-                defaultValue={body}
-                id="edit-body"
-                cols="30"
-                rows="10"
-              />
-              <button type="submit">EDIT</button>
-            </form>
-          )}
-          {error ? <p>Something wrong...</p> : null}
-        </>
+        {mode.isRequest && <Loader />}
+
+        {mode.isError && <p>Something wrong...</p>}
+
+        {mode.isView && (
+          <PostView title={title} body={body} date={postDate} email={email} />
+        )}
+
+        {mode.isAuthor && (
+          <div>
+            <button onClick={this.deletePost}>DELETE</button>
+            <button onClick={this.props.toggleEdit}>EDIT</button>
+          </div>
+        )}
+
+        {mode.isEditor && (
+          <form onSubmit={this.onSubmitHandler}>
+            <input
+              ref={this.titleInput}
+              defaultValue={title}
+              type="text"
+              id="edit-title"
+            />
+            <br />
+            <textarea
+              ref={this.bodyInput}
+              defaultValue={body}
+              id="edit-body"
+              cols="30"
+              rows="10"
+            />
+            <button type="submit">EDIT</button>
+          </form>
+        )}
       </ErrorBoundary>
     );
   }
