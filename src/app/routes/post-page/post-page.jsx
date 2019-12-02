@@ -46,6 +46,12 @@ class PostPage extends Component {
     this.props.fetchPost(this.props.match.params.id);
   }
 
+  componentWillUnmount() {
+    if (this.props.edit) {
+      this.props.toggleEdit();
+    }
+  }
+
   deletePost = () => {
     const {
       match: {
