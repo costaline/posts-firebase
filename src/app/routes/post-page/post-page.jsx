@@ -8,6 +8,7 @@ import { postActions } from "~store/actions";
 import Loader from "~components/loader";
 import ErrorBoundary from "~hocs/error-boundary";
 import PostView from "~components/post-view";
+import ErrorMessage from "~components/error-message";
 
 class PostPage extends Component {
   static propTypes = {
@@ -103,7 +104,7 @@ class PostPage extends Component {
       <ErrorBoundary>
         {mode.isRequest && <Loader />}
 
-        {mode.isError && <p>Something wrong...</p>}
+        {mode.isError && <ErrorMessage />}
 
         {mode.isView && (
           <PostView title={title} body={body} date={postDate} email={email} />
