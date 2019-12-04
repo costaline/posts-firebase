@@ -6,7 +6,6 @@ import PropTypes from "prop-types";
 
 import { postActions } from "~store/actions";
 import Loader from "~components/loader";
-import ErrorBoundary from "~hocs/error-boundary";
 import PostView from "~components/post-view";
 import ErrorMessage from "~components/error-message";
 import PostControl from "~components/post-control";
@@ -103,7 +102,7 @@ class PostPage extends Component {
     };
 
     return (
-      <ErrorBoundary>
+      <>
         {mode.isRequest && <Loader />}
 
         {mode.isError && <ErrorMessage />}
@@ -129,7 +128,7 @@ class PostPage extends Component {
             valBody={body}
           />
         )}
-      </ErrorBoundary>
+      </>
     );
   }
 }

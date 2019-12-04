@@ -5,7 +5,6 @@ import PropTypes from "prop-types";
 
 import { postsActions } from "~store/actions";
 import Loader from "~components/loader";
-import ErrorBoundary from "~hocs/error-boundary";
 import PostsList from "~components/posts-list";
 
 const PostsPage = ({ fetchPosts, posts, loading, error }) => {
@@ -14,15 +13,11 @@ const PostsPage = ({ fetchPosts, posts, loading, error }) => {
   }, []);
 
   return (
-    <ErrorBoundary>
-      <section className="row">
-        <div className="col pt-3">
-          {loading && !error ? <Loader /> : <PostsList posts={posts} />}
+    <div className="col">
+      {loading && !error ? <Loader /> : <PostsList posts={posts} />}
 
-          {error && <p>Something wrong...</p>}
-        </div>
-      </section>
-    </ErrorBoundary>
+      {error && <p>Something wrong...</p>}
+    </div>
   );
 };
 
