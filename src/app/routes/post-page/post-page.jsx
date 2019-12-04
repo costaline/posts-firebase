@@ -9,6 +9,7 @@ import Loader from "~components/loader";
 import ErrorBoundary from "~hocs/error-boundary";
 import PostView from "~components/post-view";
 import ErrorMessage from "~components/error-message";
+import PostControl from "~components/post-control";
 
 class PostPage extends Component {
   static propTypes = {
@@ -111,10 +112,10 @@ class PostPage extends Component {
         )}
 
         {mode.isAuthor && (
-          <div>
-            <button onClick={this.deletePost}>DELETE</button>
-            <button onClick={this.props.toggleEdit}>EDIT</button>
-          </div>
+          <PostControl
+            deletePost={this.deletePost}
+            toggleEdit={this.props.toggleEdit}
+          />
         )}
 
         {mode.isEditor && (
