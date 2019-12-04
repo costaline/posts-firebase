@@ -10,6 +10,7 @@ import ErrorBoundary from "~hocs/error-boundary";
 import PostView from "~components/post-view";
 import ErrorMessage from "~components/error-message";
 import PostControl from "~components/post-control";
+import PostEdit from "~components/post-edit";
 
 class PostPage extends Component {
   static propTypes = {
@@ -119,23 +120,14 @@ class PostPage extends Component {
         )}
 
         {mode.isEditor && (
-          <form onSubmit={this.onSubmitHandler}>
-            <input
-              ref={this.titleInput}
-              defaultValue={title}
-              type="text"
-              id="edit-title"
-            />
-            <br />
-            <textarea
-              ref={this.bodyInput}
-              defaultValue={body}
-              id="edit-body"
-              cols="30"
-              rows="10"
-            />
-            <button type="submit">EDIT</button>
-          </form>
+          <PostEdit
+            onSubmitHandler={this.onSubmitHandler}
+            onCancelHandler={this.props.toggleEdit}
+            refTitle={this.titleInput}
+            refBody={this.bodyInput}
+            valTitle={title}
+            valBody={body}
+          />
         )}
       </ErrorBoundary>
     );
