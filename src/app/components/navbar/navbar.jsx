@@ -6,7 +6,7 @@ import NavAuth from "~components/nav-auth";
 
 const NavBar = () => {
   return (
-    <header>
+    <header style={{ position: "sticky", top: 0, zIndex: 2 }}>
       <WithBootstrapNavbar color="primary" mode="dark" expand="md">
         <NavSite />
         <NavAuth />
