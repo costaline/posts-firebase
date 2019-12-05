@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 
 import { authActions } from "~store/actions";
 import Loader from "~components/loader";
+import AuthForm from "~components/auth-form";
 import { validateControl, validateForm } from "~src/app/utils/validate-form.js";
 
 const initialState = () => ({
@@ -117,70 +118,26 @@ class AuthPage extends Component {
     return <h3>{this.props.error}</h3>;
   };
 
-  renderForm = () => {
+  render() {
+    const { requesting, error } = this.props;
     const { email, password } = this.state;
 
     return (
-      <form onSubmit={this.onSubmitHandler}>
-        <div>
-          <label htmlFor="auth-email">Email</label>
-          <input
-            value={email.value}
-            onChange={this.onChangeHandler}
-            type="email"
-            name="email"
-            id="auth-email"
-          />
-          {email.showError && !email.isValid && (
-            <div>
-              <small>
-                {(email.errors.empty && "empty value") ||
-                  (email.errors.email && "invalid email")}
-              </small>
-            </div>
-          )}
-        </div>
-
-        <div>
-          <label htmlFor="auth-password">Password</label>
-          <input
-            value={password.value}
-            onChange={this.onChangeHandler}
-            type="password"
-            name="password"
-            id="auth-password"
-          />
-          {password.showError && !password.isValid && (
-            <div>
-              <small>
-                {(password.errors.empty && "empty value") ||
-                  (password.errors.minLength &&
-                    "at least 6 character required")}
-              </small>
-            </div>
-          )}
-        </div>
-
-        <div>
-          <button onClick={this.onLoginClickHandler} type="button">
-            LOGIN
-          </button>
-          <button onClick={this.onRegClickHandler} type="button">
-            REG
-          </button>
-        </div>
-      </form>
-    );
-  };
-
-  render() {
-    const { requesting, error } = this.props;
-
-    return (
-      <div>
-        {requesting && !error ? <Loader /> : this.renderForm()}
+      <>
+        {requesting && !error && <Loader />}
         {error && this.showAuthError()}
-      </div>
+
+        {!requesting && !error && (
+          <AuthForm
+            onSubmitHandler={this.onSubmitHandler}
+            onLogin={this.onLoginClickHandler}
+            onReg={this.onRegClickHandler}
+            onChangeHandler={this.onChangeHandler}
+            controlEmail={email}
+            controlPassword={password}
+          />
+        )}
+      </>
     );
   }
 }
