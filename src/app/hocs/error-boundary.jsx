@@ -7,7 +7,7 @@ class ErrorBoundary extends Component {
   };
 
   state = {
-    errror: null,
+    error: null,
     errorInfo: null
   };
 
