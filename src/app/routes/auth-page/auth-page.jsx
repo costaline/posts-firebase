@@ -4,26 +4,11 @@ import PropTypes from "prop-types";
 
 import { authActions } from "~store/actions";
 import Loader from "~components/loader";
+import { validateControl, validateForm } from "~src/app/utils/validate-form.js";
 
 const initialState = () => ({
-  email: {
-    value: "",
-    isValid: false,
-    showError: false,
-    errors: {
-      empty: true,
-      email: true
-    }
-  },
-  password: {
-    value: "",
-    isValid: false,
-    showError: false,
-    errors: {
-      empty: true,
-      minLength: true
-    }
-  }
+  email: { value: "" },
+  password: { value: "" }
 });
 
 class AuthPage extends Component {
@@ -42,96 +27,36 @@ class AuthPage extends Component {
   state = initialState();
 
   componentDidMount() {
-    this.replacePage();
+    if (this.props.user) {
+      this.replacePage();
+    }
   }
 
   componentDidUpdate() {
-    this.replacePage();
+    if (this.props.user) {
+      this.replacePage();
+    }
   }
 
   replacePage = () => {
-    if (this.props.user) {
-      this.props.history.replace("/");
-    }
+    this.props.history.replace("/");
   };
 
   onChangeHandler = (evt) => {
-    const controlName = evt.target.name;
-    const controlValues = { ...this.state[evt.target.name] };
+    //получаем проверяемый контрол
+    const control = evt.target.name;
+    //получаем данные контрола
+    const controlValues = { ...this.state[control] };
+    //записываем данные из формы
     controlValues.value = evt.target.value;
-
-    const values = this.validateControl(controlName, controlValues);
-
-    values.showError = false;
-
-    this.setState({
-      [evt.target.name]: values
-    });
-  };
-
-  //TODO split
-  validateControl = (controlName, controlValues) => {
-    // eslint-disable-next-line no-case-declarations, no-useless-escape
-    const REGEX_EMAIL = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-
-    const PASS_MIN_LENGTH = 6;
-
-    let isValid = true;
-
-    const { errors, value } = controlValues;
-
-    errors.empty = value.trim() === "" ? true : false;
-
-    isValid = !errors.empty && isValid;
-
-    switch (controlName) {
-      case "email":
-        errors.email = !REGEX_EMAIL.test(value) ? true : false;
-
-        isValid = !errors.email && isValid;
-        break;
-
-      case "password":
-        errors.minLength = value.length < PASS_MIN_LENGTH ? true : false;
-
-        isValid = !errors.minLength && isValid;
-        break;
-    }
-
-    controlValues.isValid = isValid;
-
-    return controlValues;
-  };
-
-  showFormError = () => {
-    Object.keys(this.state).forEach((control) => {
-      let controlValues = { ...this.state[control] };
-
-      if (!this.state[control].isValid) {
-        controlValues.showError = true;
-        this.setState({ [control]: controlValues });
-      }
-    });
-  };
-
-  validateForm = () => {
-    let isFormValid = true;
-
-    Object.keys(this.state).forEach(
-      (control) => (isFormValid = this.state[control].isValid && isFormValid)
-    );
-
-    if (!isFormValid) {
-      this.showFormError();
-    }
-
-    return isFormValid;
+    //данные с учетом валидации
+    const validated = validateControl(controlValues, control);
+    //записываем в state
+    this.setState({ [evt.target.name]: { ...validated } });
   };
 
   onSubmitHandler = (evt) => {
     evt.preventDefault();
-
-    this.setState(initialState);
   };
 
   //TODO optimize
@@ -160,7 +85,13 @@ class AuthPage extends Component {
   };
 
   onLoginClickHandler = () => {
-    const isFormValid = this.validateForm();
+    const formControls = { ...this.state };
+
+    const { controlsWithShowErrors: formData, isFormValid } = validateForm(
+      formControls
+    );
+
+    this.setState({ ...formData });
 
     if (isFormValid) {
       this.authSignIn();
@@ -168,7 +99,13 @@ class AuthPage extends Component {
   };
 
   onRegClickHandler = () => {
-    const isFormValid = this.validateForm();
+    const formControls = { ...this.state };
+
+    const { controlsWithShowErrors: formData, isFormValid } = validateForm(
+      formControls
+    );
+
+    this.setState({ ...formData });
 
     if (isFormValid) {
       this.authSignUp();
