@@ -26,6 +26,9 @@ const authReducer = (state = initialState, { type, ...payload }) => {
     case actions.USER_SET:
       return { ...state, user: payload.user };
 
+    case actions.CLEAR_AUTH_ERROR:
+      return { ...state, error: null };
+
     default:
       return state;
   }

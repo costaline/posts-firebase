@@ -63,3 +63,9 @@ export const logoutUser = (history) => {
     type: actions.USER_LOGOUT
   };
 };
+
+export const clearAuthError = () => {
+  return {
+    type: actions.CLEAR_AUTH_ERROR
+  };
+};
