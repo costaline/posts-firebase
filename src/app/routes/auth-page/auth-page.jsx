@@ -5,7 +5,9 @@ import PropTypes from "prop-types";
 import { authActions } from "~store/actions";
 import Loader from "~components/loader";
 import AuthForm from "~components/auth-form";
+import AuthError from "~components/auth-error";
 import { validateControl, validateForm } from "~src/app/utils/validate-form.js";
+import { bindActionCreators } from "redux";
 
 const initialState = () => ({
   email: { value: "" },
@@ -22,7 +24,8 @@ class AuthPage extends Component {
     error: PropTypes.string,
     history: PropTypes.object,
     firebaseSignIn: PropTypes.func,
-    firebaseSignUp: PropTypes.func
+    firebaseSignUp: PropTypes.func,
+    clearAuthError: PropTypes.func
   };
 
   state = initialState();
@@ -113,11 +116,6 @@ class AuthPage extends Component {
     }
   };
 
-  //TODO: modal
-  showAuthError = () => {
-    return <h3>{this.props.error}</h3>;
-  };
-
   render() {
     const { requesting, error } = this.props;
     const { email, password } = this.state;
@@ -125,7 +123,12 @@ class AuthPage extends Component {
     return (
       <>
         {requesting && !error && <Loader />}
-        {error && this.showAuthError()}
+        {error && (
+          <AuthError
+            message={this.props.error}
+            onClickHandler={this.props.clearAuthError}
+          />
+        )}
 
         {!requesting && !error && (
           <AuthForm
@@ -150,7 +153,15 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, {
-  firebaseSignUp: authActions.authSignUp,
-  firebaseSignIn: authActions.authSignIn
-})(AuthPage);
+const mapDispatchToProps = (dispatch) => {
+  return bindActionCreators(
+    {
+      firebaseSignUp: authActions.authSignUp,
+      firebaseSignIn: authActions.authSignIn,
+      clearAuthError: authActions.clearAuthError
+    },
+    dispatch
+  );
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(AuthPage);
