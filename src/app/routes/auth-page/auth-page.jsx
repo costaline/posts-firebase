@@ -121,7 +121,7 @@ class AuthPage extends Component {
     const { email, password } = this.state;
 
     return (
-      <>
+      <div className="mx-auto mt-5">
         {requesting && !error && <Loader />}
         {error && (
           <AuthError
@@ -140,7 +140,7 @@ class AuthPage extends Component {
             controlPassword={password}
           />
         )}
-      </>
+      </div>
     );
   }
 }
