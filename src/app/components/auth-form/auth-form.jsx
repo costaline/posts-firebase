@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import {
   Button,
   ButtonGroup,
@@ -20,7 +21,7 @@ const AuthForm = (props) => {
   } = props;
 
   return (
-    <Form>
+    <Form onSubmit={onSubmitHandler}>
       <FormGroup>
         <Label hidden for="auth-email">
           Email
@@ -79,12 +80,39 @@ const AuthForm = (props) => {
         )}
       </FormGroup>
 
-      <ButtonGroup>
-        <Button onClick={onLogin}>LOGIN</Button>
-        <Button onClick={onReg}>REGISTRATION</Button>
-      </ButtonGroup>
+      <div className="text-center">
+        <ButtonGroup>
+          <Button onClick={onLogin}>LOGIN</Button>
+          <Button onClick={onReg}>REGISTRATION</Button>
+        </ButtonGroup>
+      </div>
     </Form>
   );
+};
+
+AuthForm.propTypes = {
+  onSubmitHandler: PropTypes.func,
+  onChangeHandler: PropTypes.func,
+  onLogin: PropTypes.func,
+  onReg: PropTypes.func,
+  controlEmail: PropTypes.shape({
+    value: PropTypes.string,
+    isValid: PropTypes.bool,
+    showError: PropTypes.bool,
+    errors: PropTypes.shape({
+      empty: PropTypes.bool,
+      email: PropTypes.bool
+    })
+  }),
+  controlPassword: PropTypes.shape({
+    value: PropTypes.string,
+    isValid: PropTypes.bool,
+    showError: PropTypes.bool,
+    errors: PropTypes.shape({
+      empty: PropTypes.bool,
+      minLength: PropTypes.bool
+    })
+  })
 };
 
 export default AuthForm;
